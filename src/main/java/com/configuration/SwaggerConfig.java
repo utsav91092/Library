@@ -40,7 +40,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()//
                 .title("Library Management API's")
                 .description(
-                        "TODO")
+                        "This application serves API's for library management.")
                 .version("1.0.0")
                 .contact(new Contact(null, null, "utsavanand.work@gmail.com"))
                 .build();
