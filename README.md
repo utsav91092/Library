@@ -50,9 +50,9 @@ Note: App Port and database connection details can be changed from application.y
 ```
 
 ##Swagger Url
-```
-http://ec2-13-58-223-152.us-east-2.compute.amazonaws.com:8080/swagger-ui.html#/
-```
+
+[ApiDocs](http://ec2-13-58-223-152.us-east-2.compute.amazonaws.com:8080/swagger-ui.html#/)
+
 ## Built With
 
 * [SpringBoot](https://spring.io/projects/spring-boot) - The java web framework used
@@ -60,8 +60,6 @@ http://ec2-13-58-223-152.us-east-2.compute.amazonaws.com:8080/swagger-ui.html#/
 * [Swagger](https://swagger.io/) - document, and consume RESTful Web services
 
 # Application Architecture
-
-![alt text](https://raw.githubusercontent.com/utsav91092/library/blob/master/architecture.jpg)
 
 ![alt text](https://github.com/utsav91092/library/blob/master/architecture.jpg)
 
