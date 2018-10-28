@@ -48,7 +48,7 @@ Steps to deploy on cloud(Linux machine)
 Note: App Port and database connection details can be changed from application.yml
 ```
 
-##Swagger Url
+## Swagger Url
 
 [ApiDocs](http://ec2-13-58-223-152.us-east-2.compute.amazonaws.com:8080/swagger-ui.html#/)
 
