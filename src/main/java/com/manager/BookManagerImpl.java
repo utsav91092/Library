@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -99,7 +100,8 @@ public class BookManagerImpl implements BookManager {
             Book book = bookOp.get();
             return buildBookResponse(book);
         } else
-            throw new CustomException("Invalid book id", HttpStatus.NOT_FOUND);
+            return BookResponse.builder()
+                    .message("Book Details not available").build();
     }
 
     private BookResponse buildBookResponse(Book book) {
@@ -181,10 +183,10 @@ public class BookManagerImpl implements BookManager {
                         UserReadingHistoryResponse.builder()
                                 .rentReferenceNumber(bookRequest.getId())
                                 .rentedDate(bookRequest.getApprovedDate())
-                                .bookName(bookDetailsMap.get(bookRequest.getBookId()).getName())
-                                .bookCategory(bookDetailsMap.get(bookRequest.getBookId()).getBookCategory())
-                                .rentedPrice(bookDetailsMap.get(bookRequest.getBookId()).getPpr())
-                                .authorName(bookDetailsMap.get(bookRequest.getBookId()).getAuthor())
+                                .bookName(bookDetailsMap.get(bookRequest.getBookId()).getName() != null ? bookDetailsMap.get(bookRequest.getBookId()).getName() : bookDetailsMap.get(bookRequest.getBookId()).getMessage())
+                                .bookCategory(bookDetailsMap.get(bookRequest.getBookId()).getBookCategory() != null ? bookDetailsMap.get(bookRequest.getBookId()).getBookCategory() : "")
+                                .rentedPrice(bookDetailsMap.get(bookRequest.getBookId()).getPpr() != null ? bookDetailsMap.get(bookRequest.getBookId()).getPpr() : BigDecimal.ZERO)
+                                .authorName(bookDetailsMap.get(bookRequest.getBookId()).getAuthor() != null ? bookDetailsMap.get(bookRequest.getBookId()).getAuthor() : "")
                                 .build()).collect(Collectors.toList());
     }
 }

@@ -24,7 +24,7 @@ security:
             expire-length: 3600000
 UserController:
     signin: 'Authenticates user and returns its JWT token.'
-    signup: 'Creates user and returns its JWT token (Note: Assuming only one admin can be in active state ,Users can be multiple)'
+    signup: 'Creates user and returns its JWT token (Note: Assuming only one admin can be in active state ,Users can be multiple), Accepted user role is ROLE_ADMIN,ROLE_USER'
     getallusers: 'Returs list of users'
     getuser: 'Returns logged in user'
     getbookrequest: 'Returns books rent/collect requests by user;'

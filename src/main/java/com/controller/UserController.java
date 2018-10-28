@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.exception.CustomException;
+import com.model.Role;
 import io.swagger.annotations.*;
 import com.enums.AdminBookRequestType;
 import com.manager.BookManager;
@@ -12,6 +14,7 @@ import com.requestdto.UserBookRequest;
 import com.requestdto.CreateUserRequest;
 import com.responsedto.*;
 import com.utils.CommonUtils;
+import javafx.beans.property.ReadOnlyListProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -104,7 +108,7 @@ public class UserController {
             @ApiResponse(code = 401, message = "Expired or invalid JWT token")})
     public ResponseEntity<?> getUser(@RequestHeader("Authorization") String jwt) {
         try {
-            GetUserResponse user = modelMapper.map(userManager.getUserByToken(jwt),GetUserResponse.class);
+            GetUserResponse user = modelMapper.map(userManager.getUserByToken(jwt), GetUserResponse.class);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -143,7 +147,7 @@ public class UserController {
     public ResponseEntity<?> rentRequest(@RequestBody UserBookRequest userBookRequest, @RequestHeader("Authorization") String jwt) {
         try {
             Users user = userManager.getUserByToken(jwt);
-            return new ResponseEntity<>(userManager.bookRentRequest(userBookRequest.getBookId(),user), HttpStatus.OK);
+            return new ResponseEntity<>(userManager.bookRentRequest(userBookRequest.getBookId(), user), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return CommonUtils.getResponseEntity("Failed", "", Arrays.asList(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -161,7 +165,7 @@ public class UserController {
     public ResponseEntity<?> returnRequest(@RequestBody UserBookRequest userBookRequest, @RequestHeader("Authorization") String jwt) {
         try {
             Users user = userManager.getUserByToken(jwt);
-            return new ResponseEntity<>(userManager.bookReturnRequest(userBookRequest.getBookId(),user), HttpStatus.OK);
+            return new ResponseEntity<>(userManager.bookReturnRequest(userBookRequest.getBookId(), user), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return CommonUtils.getResponseEntity("Failed", "", Arrays.asList(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -179,7 +183,7 @@ public class UserController {
     public ResponseEntity<?> ackRequest(@RequestBody UserBookRequest userBookRequest, @RequestHeader("Authorization") String jwt) {
         try {
             Users user = userManager.getUserByToken(jwt);
-            return new ResponseEntity<>(userManager.bookAcknowledgeRequest(userBookRequest.getBookId(),user), HttpStatus.OK);
+            return new ResponseEntity<>(userManager.bookAcknowledgeRequest(userBookRequest.getBookId(), user), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
             return CommonUtils.getResponseEntity("Failed", "", Arrays.asList(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -196,9 +200,9 @@ public class UserController {
     public ResponseEntity<?> approve(@RequestBody ApproveOrCollectBookRequest request, @RequestHeader("Authorization") String jwt) {
         try {
             ApproveOrCollectBookResponse response = userManager.approveBookRequest(request);
-            if(response!=null){
+            if (response != null) {
                 return new ResponseEntity<>(response, HttpStatus.OK);
-            }else {
+            } else {
                 return CommonUtils.getResponseEntity("Failed", "", Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (Exception e) {
@@ -251,8 +255,19 @@ public class UserController {
             @ApiResponse(code = 401, message = "Expired or invalid JWT token")})
     public ResponseEntity<?> getUsersPaymentHistory(@PathVariable Integer userId, @RequestHeader("Authorization") String jwt) {
         try {
-            List<UserPaymentHistoryResponse> history = walletManager.fetchUserPaymentHistory(userId);
+            Users user = userManager.getUserByToken(jwt);
+            List<UserPaymentHistoryResponse> history = new ArrayList<>();
+            if (user.getRole().equals(Role.ROLE_ADMIN)) {
+                history = walletManager.fetchUserPaymentHistory(userId);
+            }
+            if ((user.getRole().equals(Role.ROLE_USER)) && (user.getId().equals(userId))) {
+                history = walletManager.fetchUserPaymentHistory(userId);
+
+            } else {
+                new CustomException("Cannot see other users history", HttpStatus.NOT_FOUND);
+            }
             return new ResponseEntity<>(history, HttpStatus.OK);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return CommonUtils.getResponseEntity("Failed", "", Arrays.asList(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
