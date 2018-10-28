@@ -52,6 +52,10 @@ Note: App Port and database connection details can be changed from application.y
 
 [ApiDocs](http://ec2-13-58-223-152.us-east-2.compute.amazonaws.com:8080/swagger-ui.html#/)
 
+Token Format: Bearer xxxx
+xxx - (jwt) get it on signIn
+Ex: Bearer exjhjkhdksjhknk.asjdjkds.sdkksnd
+
 ## Built With
 
 * [SpringBoot](https://spring.io/projects/spring-boot) - The java web framework used
