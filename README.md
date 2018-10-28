@@ -56,6 +56,8 @@ Token Format: Bearer xxxx
 xxx - (jwt) get it on signIn
 Ex: Bearer exjhjkhdksjhknk.asjdjkds.sdkksnd
 
+User roles allowed: ROLE_ADMIN,ROLE_USER
+
 ## Built With
 
 * [SpringBoot](https://spring.io/projects/spring-boot) - The java web framework used
