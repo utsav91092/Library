@@ -15,11 +15,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+  public static final String SWAGGER = "/swagger**";
+  public static final String SWAGGER2 = "/configuration/**";
+  public static final String SWAGGER3 = "/error";
+  public static final String SWAGGER4 = "/v2/api-docs";
+  public static final String SWAGGER5 = "/webjars/**";
+  public static final String SWAGGER6 = "/favicon.ico";
+  public static final String SWAGGER7 = "/swagger-ui.html#/";
+  public static final String SWAGGER8 = "/swagger-ui.html";
+
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+
 
     // Disable CSRF (cross site requestdto forgery)
     http.csrf().disable();
@@ -31,6 +41,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()//
             .antMatchers("/users/signin").permitAll()
             .antMatchers("/users/signup").permitAll()
+            .antMatchers(SWAGGER).permitAll()
+            .antMatchers(SWAGGER2).permitAll()
+            .antMatchers(SWAGGER3).permitAll()
+            .antMatchers(SWAGGER4).permitAll()
+            .antMatchers(SWAGGER5).permitAll()
+            .antMatchers(SWAGGER6).permitAll()
+            .antMatchers(SWAGGER7).permitAll()
+            .antMatchers(SWAGGER8).permitAll()
             // Disallow everything else..
             .anyRequest().authenticated();
 
