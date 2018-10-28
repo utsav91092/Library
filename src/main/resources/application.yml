@@ -1,0 +1,49 @@
+spring:
+    datasource:
+        url: 'jdbc:postgresql://localhost:5432/library?UseUnicode=true&characterEncoding=UTF-8'
+        driver-class-name: org.postgresql.Driver
+        username: postgres
+        password: postgres
+        platform: postgres
+    tomcat:
+        max-wait: 20000
+        max-active: 50
+        max-idle: 20
+        min-idle: 15
+    jpa:
+        hibernate:
+            ddl-auto: create-drop
+            naming: {strategy: org.hibernate.cfg.ImprovedNamingStrategy}
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        database: POSTGRESQL
+        show-sql: true
+security:
+    jwt:
+        token:
+            secret-key: secret-key
+            expire-length: 3600000
+UserController:
+    signin: 'Authenticates user and returns its JWT token.'
+    signup: 'Creates user and returns its JWT token (Note: Assuming only one admin can be in active state ,Users can be multiple)'
+    getallusers: 'Returs list of users'
+    getuser: 'Returns logged in user'
+    getbookrequest: 'Returns books rent/collect requests by user;'
+    requesttransition: 'Rent/Acknowledge/Return request (Note: Can be done by normal user only)'
+    approve: 'Rent request approval (Note: Can be done by admin only).'
+    collect: 'Collect request approval (Note: Can be done by admin only).'
+    readinghistory: 'Fetches users''s reading history'
+    paymenthistory: 'Fetchs users''s payment history'
+    rentrequest: 'Rent request for book by normal user'
+    returnrequest: 'Return request for book by normal user'
+    ackrequest: 'Acknowledge request for book by normal user'
+WalletController:
+    recharge: 'Rechage user wallet'
+BookController:
+    create: 'Create books'
+    update: 'Update book'
+    search: 'Filters books'
+    getallbooks: 'Feches All books'
+    getbyid: 'fetch book by id'
+    delete: 'delete book by id'
+    renthistory: 'fetched books rent history.'
+    getallcategories: 'fetches all categories'
