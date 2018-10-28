@@ -8,3 +8,4 @@ Install Java8 and postgres9.x
 - Run: mvn package
 - cd /target
 - Run: nohup java -jar library-service-1.0.0.jar &
+
