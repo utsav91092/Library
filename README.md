@@ -1,6 +1,5 @@
-# Project Title
+# Online Library management
 
-Online Library management
 - This application serves API's for library management.
 
 ## Getting Started
